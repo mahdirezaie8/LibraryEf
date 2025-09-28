@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library3.Dto
+﻿namespace Library3.Dto
 {
     public class CategoryDto
     {

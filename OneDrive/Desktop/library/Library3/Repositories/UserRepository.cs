@@ -1,12 +1,7 @@
 ﻿using Library3.Contracts;
+using Library3.Dto;
 using Library3.Infrastructure;
 using Library3.ntts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Library3.Repositories
 {
     public class UserRepository : IUserRepository
@@ -60,8 +55,35 @@ namespace Library3.Repositories
                 user1.Username=user.Username;
                 user1.Password=user.Password;
                 user1.Role=user.Role;
+                user1.PenaltyAmount = user.PenaltyAmount;
             }
             _context.SaveChanges();
         }
+        public List<UserDto> GetAllUser()
+        {
+            var users=_context.Users.Select(x => new UserDto
+            {
+                Id = x.Id,
+                FirstName=x.FirstName,
+                LastName=x.LastName,
+                Username=x.Username,
+                PenaltyAmount=x.PenaltyAmount,
+            }).ToList();
+            return users;
+        }
+        public UserDto GetUser(int userid)
+        {
+            var user = _context.Users.Select(x=>new UserDto
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Username = x.Username,
+                PenaltyAmount = x.PenaltyAmount,
+            }).FirstOrDefault(x=>x.Id == userid);
+            return user;
+        }
+
+        
     }
 }

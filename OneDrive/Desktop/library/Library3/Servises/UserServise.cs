@@ -1,14 +1,9 @@
 ﻿using Library3.Contracts;
 using Library3.Contracts.IServices;
+using Library3.Dto;
 using Library3.Enums;
 using Library3.ntts;
 using Library3.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Library3.Servises
 {
     public class UserServise: IUserServise
@@ -51,6 +46,16 @@ namespace Library3.Servises
             }
             else
                 throw new Exception("username not found");
+        }
+        public UserDto ShowProfile(User user)
+        {
+            var newuser=_userRepository.GetUser(user.Id);
+            return newuser;
+        }
+        public List<UserDto> ShowAllUser()
+        {
+            var alluser= _userRepository.GetAllUser();
+            return alluser;
         }
 
     }

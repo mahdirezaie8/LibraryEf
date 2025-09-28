@@ -3,12 +3,6 @@ using Library3.Dto;
 using Library3.Infrastructure;
 using Library3.ntts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Library3.Repositories
 {
     public class BookRepository : IBookRepository
@@ -41,7 +35,8 @@ namespace Library3.Repositories
                 YearOfPublication = x.YearOfPublication,
                 CategoryName = x.Category.Name,
                 Rating = x.reviews.Average(x => x.Rating),
-                comment = x.reviews.Where(x => x.Confirmation == true).Select(x => x.Comment).ToList()
+                comment = x.reviews.Where(x => x.Confirmation == true).Select(x => x.Comment).ToList(),
+                counWishList=x.wishlist.Count(),
             }).ToList();
             return books;
         }

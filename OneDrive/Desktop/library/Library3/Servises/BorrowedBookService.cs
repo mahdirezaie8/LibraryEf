@@ -3,13 +3,6 @@ using Library3.Contracts.IServices;
 using Library3.Dto;
 using Library3.ntts;
 using Library3.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Library3.Servises
 {
     public class BorrowedBookService: IBorrowedBookService
@@ -27,7 +20,7 @@ namespace Library3.Servises
                 {
                     BookId = book.Id,
                     UserId = user.Id,
-                    DateTime = DateTime.Now,
+                    CreatAt = DateTime.Now,
                 };
                 borrowedBookRepository.Create(borrowedBook);
             }
@@ -43,6 +36,38 @@ namespace Library3.Servises
             }
             else
                 throw new Exception("you dont borrow a book");
+        }
+        public void ReturnBook(int bookid, int userid)
+        {
+            var user=UserRepository.GetById(userid);
+            var borrowed = borrowedBookRepository.GetBorrowedBookUser(bookid, user);
+            if (borrowed != null)
+            {
+                if (borrowed.ReturnDate==null)
+                {
+                    borrowed.ReturnDate = DateTime.Now;
+                    borrowedBookRepository.Update(borrowed);
+                    var firstday = borrowed.CreatAt;
+                    var lastday=borrowed.ReturnDate;
+                    TimeSpan diff=(lastday-firstday).Value;
+                    int days = diff.Days;
+                   var fine= borrowedBookRepository.GetFine(days);
+                    if(user.PenaltyAmount==null)
+                    {
+                        user.PenaltyAmount = fine;
+                        UserRepository.Update(user);
+                    }
+                    else
+                    {
+                        user.PenaltyAmount = user.PenaltyAmount + fine;
+                        UserRepository.Update(user) ;
+                    }
+                }
+                else 
+                    throw new Exception("this book has been returned");
+            }
+            else
+                throw new Exception("this borrowed not found");
         }
     }
 }

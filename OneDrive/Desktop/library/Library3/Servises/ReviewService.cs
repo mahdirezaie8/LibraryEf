@@ -3,12 +3,6 @@ using Library3.Contracts.IServices;
 using Library3.Dto;
 using Library3.ntts;
 using Library3.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Library3.Servises
 {
     public class ReviewService: IReviewService

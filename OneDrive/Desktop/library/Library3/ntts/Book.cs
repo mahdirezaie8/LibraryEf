@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library3.ntts
+﻿namespace Library3.ntts
 {
     public class Book
     {
@@ -15,5 +9,6 @@ namespace Library3.ntts
         public Category Category { get; set; }
         public int CategoryId { get; set; }
         public List<Review> reviews { get; set; } = [];
+        public List<Wishlist> wishlist { get; set; } = [];
     }
 }

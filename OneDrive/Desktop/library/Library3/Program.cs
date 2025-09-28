@@ -2,7 +2,6 @@
 using Library3.Enums;
 using Library3.Extensions;
 using Library3.ntts;
-using Library3.Repositories;
 using Library3.Servises;
 
 IUserServise userServise = new UserServise();
@@ -10,6 +9,7 @@ ICategoryService categoryService = new CategoryService();
 IBookService bookService = new BookService();
 IBorrowedBookService borrowedBookService = new BorrowedBookService();
 IReviewService reviewService = new ReviewService();
+IWishListService wishService = new WishListService();
 User user = null;
 bool a = true;
 while (a)
@@ -89,6 +89,11 @@ while (a)
             Console.WriteLine("4.write review for book");
             Console.WriteLine("5.edit comment");
             Console.WriteLine("6.delete comment");
+            Console.WriteLine("7.add book to your wishlist");
+            Console.WriteLine("8.show wishlist");
+            Console.WriteLine("9.delete wishlist");
+            Console.WriteLine("10.Return book");
+            Console.WriteLine("11.show profile");
             Console.Write("which one?");
             number1 = int.Parse(Console.ReadLine());
             switch (number1)
@@ -113,12 +118,14 @@ while (a)
                             {
                                 foreach (var com in book.comment)
                                 {
-                                    Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication} - cemment:{com} - Rating:{book.Rating}");
+                                    Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication}" +
+                                        $" - cemment:{com} - Rating:{book.Rating} - count wishlist:{book.counWishList}");
                                 }
                             }
                             if (book.comment.Count == 0)
                             {
-                                Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication} - comment:null - Rating:{book.Rating}");
+                                Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication}" +
+                                    $" - comment:null - Rating:{book.Rating} - count wishlist:{book.counWishList}");
                             }
                         }
 
@@ -147,8 +154,8 @@ while (a)
                     Console.Clear();
                     try
                     {
-                        var borrowed = borrowedBookService.GetAllBorrowedBooksUser(user);
-                        ConsolePainter.WriteTable(borrowed);
+                        var borrowed1 = borrowedBookService.GetAllBorrowedBooksUser(user);
+                        ConsolePainter.WriteTable(borrowed1);
                     }
                     catch (Exception ex)
                     {
@@ -208,6 +215,67 @@ while (a)
                     }
                     Console.ReadKey();
                     break;
+                    case 7:
+                    Console.Clear();
+                    Console.WriteLine("enter book id");
+                    bookid=int.Parse(Console.ReadLine());
+                    try
+                    {
+                        wishService.CreateWishlist(user, bookid);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    Console.ReadKey();
+                    break;
+                    case 8:
+                        Console.Clear();
+                    try
+                    {
+                        var whishlist = wishService.ShowAllWishListUser(user);
+                        ConsolePainter.WriteTable(whishlist);
+                    }
+                    catch( Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    Console.ReadKey();
+                    break;
+                    case 9:
+                        Console.Clear();
+                    Console.WriteLine("enter wishlist id for delete:");
+                    int whishlistid=int.Parse(Console.ReadLine());
+                    try
+                    {
+                        wishService.DeleteWishlist(whishlistid, user.Id);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    Console.ReadKey();
+                    break;
+                    case 10:
+                    Console.Clear();
+                    Console.WriteLine("enter bookid");
+                    int borrowed=int.Parse(Console.ReadLine());
+                    try
+                    {
+                        borrowedBookService.ReturnBook(borrowed, user.Id);
+                    }
+                   catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    Console.ReadKey();
+                    break;
+                    case 11:
+                        Console.Clear();
+                    var userp=userServise.ShowProfile(user);
+                    Console.WriteLine($"UserID:{userp.Id} - FirstName:{userp.FirstName} - LastName:{userp.LastName} - PenaltyAmount:{userp.PenaltyAmount}");
+                    Console.ReadKey();
+                    break;
                 default:
                     Console.Clear();
                     Console.WriteLine("please enter true number");
@@ -224,6 +292,8 @@ while (a)
             Console.WriteLine("2.create book");
             Console.WriteLine("3.see the list of category and books");
             Console.WriteLine("4.edite Confirmation");
+            Console.WriteLine("5.show all wishlist");
+            Console.WriteLine("6.show all user");
             Console.Write("wich one?");
             number1 = int.Parse(Console.ReadLine());
             switch (number1)
@@ -283,12 +353,14 @@ while (a)
                             {
                                 foreach (var com in book.comment)
                                 {
-                                    Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication} - cemment:{com} - Rating:{book.Rating}");
+                                    Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication}" +
+                                        $" - cemment:{com} - Rating:{book.Rating} - count wishlist:{book.counWishList}");
                                 }
                             }
                             if (book.comment.Count == 0)
                             {
-                                Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication} - comment:null - Rating:{book.Rating}");
+                                Console.WriteLine($"bookName:{book.Name} - CategoryName:{book.CategoryName} - Author:{book.Author} - Year Of Publication:{book.YearOfPublication}" +
+                                    $" - comment:null - Rating:{book.Rating} - count wishlist:{book.counWishList}");
                             }
                         }
                     }
@@ -312,6 +384,25 @@ while (a)
                     {
                         Console.WriteLine(ex.Message);
                     }
+                    Console.ReadKey();
+                    break;
+                    case 5:
+                        Console.Clear();
+                    try
+                    {
+                        var whishlist = wishService.ShowAllWishList();
+                        ConsolePainter.WriteTable(whishlist);
+                    }
+                  catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    Console.ReadKey();
+                    break;
+                    case 6:
+                        Console.Clear();
+                    var alluser=userServise.ShowAllUser();
+                    ConsolePainter.WriteTable(alluser);
                     Console.ReadKey();
                     break;
                 default:

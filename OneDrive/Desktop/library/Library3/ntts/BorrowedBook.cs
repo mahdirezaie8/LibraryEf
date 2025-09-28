@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Library3.ntts
+﻿namespace Library3.ntts
 {
     public class BorrowedBook
     {
@@ -13,8 +7,7 @@ namespace Library3.ntts
         public int BookId { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
-        public DateTime DateTime { get; set; }
-
-
+        public DateTime CreatAt { get; set; }
+        public DateTime? ReturnDate { get; set; }
     }
 }

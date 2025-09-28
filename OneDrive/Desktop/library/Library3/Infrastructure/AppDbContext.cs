@@ -1,11 +1,5 @@
 ﻿using Library3.ntts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Library3.Infrastructure
 {
     public class AppDbContext:DbContext
@@ -44,5 +38,6 @@ namespace Library3.Infrastructure
         public DbSet<Category> Categories { get; set; }
         public DbSet<BorrowedBook> BorrowedBooks { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Wishlist> Wishlists { get; set; }
     }
 }

@@ -1,10 +1,4 @@
 ﻿using Library3.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Library3.ntts
 {
     public class User
@@ -18,6 +12,8 @@ namespace Library3.ntts
         public RoleEnum Role { get; set; }
         public List<BorrowedBook> BorrowedBooks { get; set; } = [];
         public List<Review> reviews { get; set; } = [];
+        public List<Wishlist> wishlist { get; set; } = [];
+        public int? PenaltyAmount { get; set; }
 
 
     }
